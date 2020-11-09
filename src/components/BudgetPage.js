@@ -60,6 +60,12 @@ class BudgetPage extends React.Component {
 
   }
 
+  setCurrentEdit(cat) {
+    this.setState({ 
+      currentEditCategory: cat
+    })
+  }
+
   render() {
 
     const { Title } = Typography;
@@ -80,6 +86,12 @@ class BudgetPage extends React.Component {
         title: 'Spent ($)',
         dataIndex: 'spent',
         key: 'spent',
+      },
+      {
+        title: 'operation',
+        dataIndex: 'operation',
+        render: () =>
+          <Progress percent="75" type="circle" width="50px" />
       },
     ];
 
