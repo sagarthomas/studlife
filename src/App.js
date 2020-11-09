@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { PlusOutlined, DownOutlined } from "@ant-design/icons";
 import { BrowserRouter as Router, NavLink, Route } from "react-router-dom";
-import { Layout, Menu } from "antd";
+import { Button, Layout, Menu, Dropdown } from "antd";
 
 import DashboardPage from "./components/DashboardPage";
 import ExpensePage from "./components/ExpensePage";
@@ -9,17 +10,80 @@ import DealsPage from "./components/DealsPage";
 import HousingPage from "./components/HousingPage";
 
 import "./App.css";
+import CreateModal from "./components/CreateModal";
 
 const { Header, Content, Sider } = Layout;
 
+const defaultExpenses = [];
+const defaltIncomes = [];
+const defaultBudgets = [];
+const defaultCategories = ["Food", "Entertainment", "Grocery"];
+
 function App() {
   const [collapsed, setCollapsed] = useState(false);
+  const [modalVisible, setModalVisibility] = useState(false);
+  const [createType, setCreateType] = useState("expense");
+  const [expenses, setExpenses] = useState(defaultExpenses);
+  const [incomes, setIncomes] = useState(defaltIncomes);
+  const [budgets, setBudgets] = useState(defaultBudgets);
+  const [categories, setCategories] = useState(defaultCategories); // Used for budget and expense categories
+
+  const createMenu = (
+    <Menu>
+      <Menu.Item
+        key="1"
+        onClick={() => {
+          setCreateType("expense");
+          setModalVisibility(true);
+        }}
+      >
+        New Expense
+      </Menu.Item>
+      <Menu.Item
+        key="2"
+        onClick={() => {
+          setCreateType("income");
+          setModalVisibility(true);
+        }}
+      >
+        New Income
+      </Menu.Item>
+      <Menu.Item
+        key="3"
+        onClick={() => {
+          setCreateType("budget");
+          setModalVisibility(true);
+        }}
+      >
+        New Budget
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <div className="App">
       <Layout style={{ minHeight: "100vh" }}>
+        <CreateModal
+          visible={modalVisible}
+          type={createType}
+          onCancel={() => setModalVisibility(false)}
+          categories={categories}
+          addItem={
+            createType === "expense"
+              ? setExpenses
+              : createType === "income"
+              ? setIncomes
+              : setBudgets
+          }
+        />
         <Router>
-          <Header className="site-layout-background"></Header>
+          <Header className="site-layout-background">
+            <Dropdown overlay={createMenu}>
+              <Button>
+                Create <DownOutlined />
+              </Button>
+            </Dropdown>
+          </Header>
           <Layout>
             <Sider
               width={200}
