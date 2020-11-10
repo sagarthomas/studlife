@@ -78,6 +78,35 @@ class ExpensePage extends React.Component {
         render: () => <a>Delete</a>,
       },
     ],
+    data: [
+      {
+        key: '1',
+        number: 1,
+        type: 'Food',
+        expense: 'Grocery',
+        amount: 50,
+        ddate: moment('10-15-2020').format('L'),
+        frequency: 'Bi-weekly'
+      },
+      {
+        key: '2',
+        number: 2,
+        type: 'Education',
+        expense: 'Textbooks',
+        amount: 300,
+        ddate: moment('10-28-2020').format('L'),
+        frequency: 'Once',
+      },
+      {
+        key: '3',
+        number: 3,
+        type: 'Miscellanous',
+        expense: 'Internet',
+        amount: 65,
+        ddate: moment('10-25-2020').format('L'),
+        frequency: 'Monthly',
+      },
+    ]    
   };
 
   components = {
@@ -85,38 +114,6 @@ class ExpensePage extends React.Component {
       cell: ResizableTitle,
     },
   };
-
-  date1 = new Date(2020, 12, 15, 0, 0, 0, 0)
-
-  data = [
-    {
-      key: '1',
-      number: 1,
-      type: 'Food',
-      expense: 'Grocery',
-      amount: 50,
-      ddate: moment('10-15-2020').format('L'),
-      frequency: 'Bi-weekly'
-    },
-    {
-      key: '2',
-      number: 2,
-      type: 'Education',
-      expense: 'Textbooks',
-      amount: 300,
-      ddate: moment('10-28-2020').format('L'),
-      frequency: 'Once',
-    },
-    {
-      key: '3',
-      number: 3,
-      type: 'Miscellanous',
-      expense: 'Internet',
-      amount: 65,
-      ddate: moment('10-25-2020').format('L'),
-      frequency: 'Monthly',
-    },
-  ];
 
   handleResize = index => (e, { size }) => {
     this.setState(({ columns }) => {
@@ -138,7 +135,7 @@ class ExpensePage extends React.Component {
       }),
     }));
 
-    return <Table bordered components={this.components} columns={columns} dataSource={this.data} />;
+    return <Table bordered components={this.components} columns={columns} dataSource={this.state.data} />;
   }
 }
 
