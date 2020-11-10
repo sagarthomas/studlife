@@ -34,7 +34,7 @@ const CreateModal = (props) => {
             incomeForm
               .validateFields()
               .then((values) => {
-                expenseForm.resetFields();
+                incomeForm.resetFields();
                 console.log(values);
 
                 props.addItem({ ...values });
@@ -46,7 +46,7 @@ const CreateModal = (props) => {
             budgetForm
               .validateFields()
               .then((values) => {
-                expenseForm.resetFields();
+                budgetForm.resetFields();
                 console.log(values);
 
                 props.addItem({ ...values });
