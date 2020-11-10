@@ -70,10 +70,10 @@ function App() {
           categories={categories}
           addItem={
             createType === "expense"
-              ? setExpenses
+              ? (item) => setExpenses([...expenses, item])
               : createType === "income"
-              ? setIncomes
-              : setBudgets
+              ? (item) => setIncomes([...incomes, item])
+              : (item) => setBudgets([...budgets, item])
           }
         />
         <Router>
