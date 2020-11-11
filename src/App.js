@@ -73,7 +73,10 @@ function App() {
               ? (item) => setExpenses([...expenses, item])
               : createType === "income"
               ? (item) => setIncomes([...incomes, item])
-              : (item) => setBudgets([...budgets, item])
+              : (item) => {
+                  setCategories([...categories, item.category]);
+                  setBudgets([...budgets, item]);
+                }
           }
         />
         <Router>

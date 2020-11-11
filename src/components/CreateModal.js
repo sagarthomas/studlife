@@ -159,17 +159,13 @@ const CreateModal = (props) => {
       {props.type === "budget" && (
         <Form form={budgetForm} layout="vertical" name="create_form">
           <Form.Item
-            name="month"
-            label="Month"
-            rules={[
-              {
-                required: true,
-                message: "Please select a month!",
-              },
-            ]}
+            name="category"
+            label="Category Name"
+            rules={[{ required: true, message: "Please enter a target!" }]}
           >
-            <DatePicker picker="month" />
+            <Input />
           </Form.Item>
+
           <Form.Item
             name="target"
             label="Spending target"
@@ -182,7 +178,7 @@ const CreateModal = (props) => {
               parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
             />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             name="category"
             label="Category"
             rules={[
@@ -196,7 +192,7 @@ const CreateModal = (props) => {
                 </Option>
               ))}
             </Select>
-          </Form.Item>
+          </Form.Item> */}
         </Form>
       )}
     </Modal>
