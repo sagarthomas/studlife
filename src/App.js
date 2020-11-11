@@ -124,7 +124,8 @@ function App() {
               >
                 <Route exact path="/" component={DashboardPage} />
                 <Route path="/expenses" component={ExpensePage} />
-                <Route path="/budgets" component={BudgetPage} />
+                <Route path="/budgets" exact render={(props) => <BudgetPage {...props}
+                budgets={budgets} setBudgets={setBudgets} />} />
                 <Route path="/deals" component={DealsPage} />
                 <Route path="/housing" component={HousingPage} />
               </Content>
