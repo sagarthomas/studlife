@@ -4,6 +4,9 @@ import { Resizable } from 'react-resizable';
 import moment from 'moment';
 import "../App.css";
 
+//Reference: https://stackoverflow.com/questions/59467345/how-can-i-update-and-delete-selected-rows-in-antd-table
+// https://codesandbox.io/s/fkc2j?file=/index.js
+
 const EditableContext = React.createContext();
 
 const EditableRow = ({ form, index, ...props }) => (
@@ -105,6 +108,13 @@ class ExpensePage extends React.Component {
         key: 'type',
         width: 200,
         sorter: (a, b) => a.type.length - b.type.length,
+        filters: [
+          props.categories.map(val => ({
+            text: val,
+            value: val,
+          }),)
+        ],
+        onFilter: (value, record) => record.type.indexOf(value) === 0,
       },
       {
         title: 'Expense',
@@ -225,6 +235,7 @@ class ExpensePage extends React.Component {
         cell: EditableCell,
       },
     };
+    console.log(this.categories);
     const columns = this.columns.map(col => {
       if (!col.editable) {
         return col;

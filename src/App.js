@@ -123,7 +123,8 @@ function App() {
                 style={{ padding: 24, margin: 0, minHeight: 280 }}
               >
                 <Route exact path="/" component={DashboardPage} />
-                <Route path="/expenses" component={ExpensePage} />
+                <Route path="/expenses" exact render={(props) => <ExpensePage {...props}
+                categories={categories} />} />
                 <Route path="/budgets" exact render={(props) => <BudgetPage {...props}
                 budgets={budgets} setBudgets={setBudgets} />} />
                 <Route path="/deals" component={DealsPage} />
