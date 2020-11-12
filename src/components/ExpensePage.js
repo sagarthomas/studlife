@@ -108,12 +108,12 @@ class ExpensePage extends React.Component {
         key: 'type',
         width: 200,
         sorter: (a, b) => a.type.length - b.type.length,
-        filters: [
+        filters: 
           this.props.categories.map(val => ({
             text: val,
             value: val,
-          }),)
-        ],
+          }))
+        ,
         onFilter: (value, record) => record.type.indexOf(value) === 0,
       },
       {
@@ -141,7 +141,30 @@ class ExpensePage extends React.Component {
         dataIndex: 'frequency',
         key: 'frequency',
         width: 200,
-        sorter: (a, b) => a.frequency.length - b.frequency.length
+        sorter: (a, b) => a.frequency.length - b.frequency.length,
+        filters: [
+          {
+            text: 'Monthly',
+            value: 'Monthly',
+          },
+          {
+            text: 'Bi-weekly',
+            value: 'Bi-weekly',
+          },
+          {
+            text: 'Yearly',
+            value: 'Yearly',
+          },
+          {
+            text: 'Once',
+            value: 'Once',
+          },
+          {
+            text: 'Weekly',
+            value: 'Weekly',
+          },
+        ],
+        onFilter: (value, record) => record.frequency.indexOf(value) === 0,
       },
       {
         title: 'operation',
