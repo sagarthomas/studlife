@@ -109,7 +109,7 @@ class ExpensePage extends React.Component {
         width: 200,
         sorter: (a, b) => a.type.length - b.type.length,
         filters: [
-          props.categories.map(val => ({
+          this.props.categories.map(val => ({
             text: val,
             value: val,
           }),)
@@ -235,7 +235,7 @@ class ExpensePage extends React.Component {
         cell: EditableCell,
       },
     };
-    console.log(this.categories);
+    console.log(this.props.categories);
     const columns = this.columns.map(col => {
       if (!col.editable) {
         return col;
