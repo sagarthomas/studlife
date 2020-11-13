@@ -1,5 +1,6 @@
 import React from "react";
 import { Space, Card, Divider, Table, Progress, Typography, Popover, Button, Input, Select, Popconfirm, InputNumber } from 'antd';
+import moment from 'moment';
 
 class BudgetPage extends React.Component {
   constructor(props) {
@@ -9,18 +10,20 @@ class BudgetPage extends React.Component {
 
     this.setCurrentEdit = this.setCurrentEdit.bind(this);
     this.updateBudget = this.updateBudget.bind(this);
+    this.findPercent = this.findPercent.bind(this);
+    this.getAmountSpent = this.getAmountSpent.bind(this);
     
   }
 
-  findPercent() {
-
-  }
 
   deleteBudget(b) {
     this.props.setBudgets(this.props.budgets.filter(element => element.category != b.category));
   }
 
   setCurrentEdit(c) {
+
+    console.log(this.props.expenses);
+
     this.setState({ 
       currentEdit: c,
       visible: true 
@@ -42,6 +45,28 @@ class BudgetPage extends React.Component {
 
   }
 
+  findPercent(b) {
+    var spent = this.getAmountSpent(b.category);
+    var target = parseInt(b.target);
+    //console.log((spent*1.0)/target);
+    console.log("Spent: " + this.getAmountSpent(b.category));
+    return ((spent*100.0)/target);
+  }
+
+  getAmountSpent(c) {
+
+    var spent = 0;
+
+    for (let index = 0; index < this.props.expenses.length; index++) {
+      if (this.props.expenses[index].category == c) {
+        console.log(this.props.expenses[index]);
+        spent += this.props.expenses[index].amount;
+      }      
+    }
+
+    return spent;
+  }
+
   hide = () => {
     this.setState({
       visible: false,
@@ -52,15 +77,12 @@ class BudgetPage extends React.Component {
 
     const { Title } = Typography;
 
-    
-
-
     return (
       <Space direction="vertical">
-        <Progress percent={this.findPercent()} type="circle" />
+        <Progress percent="75" type="circle" />
         <Title>CURRENT MONTH Budget</Title>
         <Divider />
-        {this.props.budgets.map((e) => <Card><h3>{e.category}</h3> <Progress percent={e.target} /> <h4>{e.target}/{e.target}</h4> <Divider />
+        {this.props.budgets.map((e) => <Card><h3>{e.category}</h3> <Progress percent={this.findPercent(e)} /> <h4>{e.target}/{e.target}</h4> <Divider />
 
         <Popover
           visible={this.state.visible}
