@@ -3,16 +3,15 @@ import React from "react";
 
 const { Option } = Select;
 
-const CreateModal = (props) => {
+const EditModal = (props) => {
   const [expenseForm] = Form.useForm();
   const [incomeForm] = Form.useForm();
-  const [budgetForm] = Form.useForm();
 
   return (
     <Modal
       visible={props.visible}
-      title={`Create a new ${props.type}`}
-      okText="Create"
+      title={`Edit ${props.type}`}
+      okText="Edit"
       cancelText="Cancel"
       onCancel={props.onCancel}
       onOk={() => {
@@ -42,18 +41,6 @@ const CreateModal = (props) => {
               })
               .catch((err) => console.log(err));
             break;
-          case "budget":
-            budgetForm
-              .validateFields()
-              .then((values) => {
-                budgetForm.resetFields();
-                console.log(values);
-
-                props.addItem({ ...values });
-                props.onCancel();
-              })
-              .catch((err) => console.log(err));
-            break;
           default:
             break;
         }
@@ -64,6 +51,7 @@ const CreateModal = (props) => {
           <Form.Item
             name="name"
             label="Name"
+            initialValue={props.item.name}
             rules={[
               {
                 required: true,
@@ -76,6 +64,7 @@ const CreateModal = (props) => {
           <Form.Item
             name="amount"
             label="Amount"
+            initialValue={props.item.amount}
             rules={[{ required: true, message: "Please enter an amount!" }]}
           >
             <InputNumber
@@ -88,6 +77,7 @@ const CreateModal = (props) => {
           <Form.Item
             name="category"
             label="Category"
+            initialValue={props.item.category}
             rules={[
               {
                 required: true,
@@ -104,16 +94,9 @@ const CreateModal = (props) => {
             </Select>
           </Form.Item>
           <Form.Item
-            name="date"
-            label="Date"
-            rules={[{ required: true, message: "Please enter the frequency!" }]}
-          >
-            <DatePicker />
-          </Form.Item>
-
-          <Form.Item
             name="frequency"
             label="Frequency"
+            initialValue={props.item.frequency}
             rules={[{ required: true, message: "Please enter the frequency!" }]}
           >
             <Select placeholder="Select a frequency" allowClear>
@@ -163,48 +146,6 @@ const CreateModal = (props) => {
           </Form.Item>
         </Form>
       )}
-
-      {props.type === "budget" && (
-        <Form form={budgetForm} layout="vertical" name="create_form">
-          <Form.Item
-            name="category"
-            label="Category Name"
-            rules={[{ required: true, message: "Please enter a target!" }]}
-          >
-            <Input />
-          </Form.Item>
-
-          <Form.Item
-            name="target"
-            label="Spending target"
-            rules={[{ required: true, message: "Please enter a target!" }]}
-          >
-            <InputNumber
-              formatter={(value) =>
-                `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              }
-              parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-            />
-          </Form.Item>
-          {/* <Form.Item
-            name="category"
-            label="Category"
-            rules={[
-              { required: true, message: "Please select budget category!" },
-            ]}
-          >
-            <Select placeholder="Select a budget category" allowClear>
-              {props.categories.map((c) => (
-                <Option key={c} value={c}>
-                  {c}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item> */}
-        </Form>
-      )}
     </Modal>
   );
 };
-
-export default CreateModal;

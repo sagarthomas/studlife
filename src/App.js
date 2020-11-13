@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { PlusOutlined, DownOutlined } from "@ant-design/icons";
+import {
+  DownOutlined,
+  DashboardOutlined,
+  DollarOutlined,
+  EuroOutlined,
+  TagsOutlined,
+  HomeOutlined,
+} from "@ant-design/icons";
 import { BrowserRouter as Router, NavLink, Route } from "react-router-dom";
 import { Button, Layout, Menu, Dropdown } from "antd";
 
@@ -27,6 +34,25 @@ function App() {
   const [incomes, setIncomes] = useState(defaltIncomes);
   const [budgets, setBudgets] = useState(defaultBudgets);
   const [categories, setCategories] = useState(defaultCategories); // Used for budget and expense categories
+
+  /*
+  The following code is present to determine which page should be highlighted on refresh.
+  (in case the browser is refreshed on a page that is not the home page)
+  */
+  let defaultPage = ["1"];
+  let currentPath = window.location.href.split("/");
+  currentPath = currentPath[currentPath.length - 1];
+  if (currentPath === "") {
+    defaultPage = ["1"];
+  } else if (currentPath === "expenses") {
+    defaultPage = ["2"];
+  } else if (currentPath === "budgets") {
+    defaultPage = ["3"];
+  } else if (currentPath === "deals") {
+    defaultPage = ["4"];
+  } else if (currentPath === "housing") {
+    defaultPage = ["5"];
+  }
 
   const createMenu = (
     <Menu>
@@ -97,22 +123,22 @@ function App() {
               <Menu
                 theme="dark"
                 mode="inline"
-                defaultSelectedKeys={["1"]}
+                defaultSelectedKeys={defaultPage}
                 style={{ height: "100%", borderRight: 0 }}
               >
-                <Menu.Item key="1">
+                <Menu.Item key="1" icon={<DashboardOutlined />}>
                   <NavLink to="/">Dashboard</NavLink>
                 </Menu.Item>
-                <Menu.Item key="2">
+                <Menu.Item key="2" icon={<DollarOutlined />}>
                   <NavLink to="/expenses">Expenses</NavLink>
                 </Menu.Item>
-                <Menu.Item key="3">
+                <Menu.Item key="3" icon={<EuroOutlined />}>
                   <NavLink to="/budgets">Budgets</NavLink>
                 </Menu.Item>
-                <Menu.Item key="4">
+                <Menu.Item key="4" icon={<TagsOutlined />}>
                   <NavLink to="/deals">Deals</NavLink>
                 </Menu.Item>
-                <Menu.Item key="5">
+                <Menu.Item key="5" icon={<HomeOutlined />}>
                   <NavLink to="/housing">Housing</NavLink>
                 </Menu.Item>
               </Menu>
@@ -125,8 +151,17 @@ function App() {
                 <Route exact path="/" component={DashboardPage} />
                 <Route path="/expenses" exact render={(props) => <ExpensePage {...props}
                 categories={categories} expenses={expenses} incomes={incomes}/>} />
-                <Route path="/budgets" exact render={(props) => <BudgetPage {...props}
-                budgets={budgets} setBudgets={setBudgets} />} />
+                <Route
+                  path="/budgets"
+                  exact
+                  render={(props) => (
+                    <BudgetPage
+                      {...props}
+                      budgets={budgets}
+                      setBudgets={setBudgets}
+                    />
+                  )}
+                />
                 <Route path="/deals" component={DealsPage} />
                 <Route path="/housing" component={HousingPage} />
               </Content>
