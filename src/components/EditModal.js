@@ -51,6 +51,7 @@ const EditModal = (props) => {
           <Form.Item
             name="name"
             label="Name"
+            initialValue={props.item.name}
             rules={[
               {
                 required: true,
@@ -63,6 +64,7 @@ const EditModal = (props) => {
           <Form.Item
             name="amount"
             label="Amount"
+            initialValue={props.item.amount}
             rules={[{ required: true, message: "Please enter an amount!" }]}
           >
             <InputNumber
@@ -75,6 +77,7 @@ const EditModal = (props) => {
           <Form.Item
             name="category"
             label="Category"
+            initialValue={props.item.category}
             rules={[
               {
                 required: true,
@@ -93,6 +96,7 @@ const EditModal = (props) => {
           <Form.Item
             name="frequency"
             label="Frequency"
+            initialValue={props.item.frequency}
             rules={[{ required: true, message: "Please enter the frequency!" }]}
           >
             <Select placeholder="Select a frequency" allowClear>
