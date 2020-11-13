@@ -92,6 +92,8 @@ class EditableCell extends React.Component {
   }
 }
 
+var keyForItem = 0;
+
 class ExpensePage extends React.Component {
   constructor(props) {
     super(props);
@@ -185,45 +187,24 @@ class ExpensePage extends React.Component {
 
     this.state = {
       dataSource: 
-      [
-        {
-          key: '1',
-          number: 1,
-          type: 'Food',
-          expense: 'Grocery',
-          amount: -50,
-          ddate: moment('10-15-2020').format('L'),
-          frequency: 'Bi-weekly'
-        },
-        {
-          key: '2',
-          number: 2,
-          type: 'Education',
-          expense: 'Textbooks',
-          amount: -300,
-          ddate: moment('10-28-2020').format('L'),
-          frequency: 'Once',
-        },
-        {
-          key: '3',
-          number: 3,
-          type: 'Income',
-          expense: 'Salary',
-          amount: 2000,
-          ddate: moment('10-21-2020').format('L'),
-          frequency: 'Once',
-        },
-        {
-          key: '4',
-          number: 4,
-          type: 'Miscellanous',
-          expense: 'Internet',
-          amount: -65,
-          ddate: moment('10-25-2020').format('L'),
-          frequency: 'Monthly',
-        },
-      ],
-      count: 4,
+      this.props.expenses.map(val => ({
+        number: "-",
+        type: val.category,
+        expense: val.name,
+        amount: -(val.amount),
+        ddate: val.date.format('L'),
+        frequency: val.frequency
+      }),),
+      dataSource2: 
+      this.props.incomes.map(val => ({
+        number: "-",
+        type: val.category,
+        expense: val.name,
+        amount: val.amount,
+        ddate: val.date.format('L'),
+        frequency: val.frequency
+      }),),
+      count: 0,
     };
   }
 
@@ -261,7 +242,7 @@ class ExpensePage extends React.Component {
   };
 
   render() {
-    const { dataSource } = this.state;
+    const { dataSource, dataSource2 } = this.state;
     const components = {
       body: {
         row: EditableFormRow,
@@ -297,6 +278,14 @@ class ExpensePage extends React.Component {
           dataSource={dataSource}
           columns={columns}
         />
+
+        <Table
+          components={components}
+          rowClassName={() => 'editable-row'}
+          bordered
+          dataSource={dataSource2}
+          columns={columns}
+        />
       </div>
     );
   }
@@ -306,12 +295,43 @@ export default ExpensePage;
 
 
 
-// this.props.expense.map(val => ({
-//   key: 1,
-//   number: 1,
-//   type: 'Food',
-//   expense: 'Grocery',
-//   amount: -50,
-//   ddate: moment('10-15-2020').format('L'),
-//   frequency: 'Bi-weekly'
-// })),
+
+
+// [
+//   {
+//     key: '1',
+//     number: 1,
+//     type: 'Food',
+//     expense: 'Grocery',
+//     amount: -50,
+//     ddate: moment('10-15-2020').format('L'),
+//     frequency: 'Bi-weekly'
+//   },
+//   {
+//     key: '2',
+//     number: 2,
+//     type: 'Education',
+//     expense: 'Textbooks',
+//     amount: -300,
+//     ddate: moment('10-28-2020').format('L'),
+//     frequency: 'Once',
+//   },
+//   {
+//     key: '3',
+//     number: 3,
+//     type: 'Income',
+//     expense: 'Salary',
+//     amount: 2000,
+//     ddate: moment('10-21-2020').format('L'),
+//     frequency: 'Once',
+//   },
+//   {
+//     key: '4',
+//     number: 4,
+//     type: 'Miscellanous',
+//     expense: 'Internet',
+//     amount: -65,
+//     ddate: moment('10-25-2020').format('L'),
+//     frequency: 'Monthly',
+//   },
+// ],
