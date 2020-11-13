@@ -184,13 +184,14 @@ class ExpensePage extends React.Component {
     ];
 
     this.state = {
-      dataSource: [
+      dataSource: 
+      [
         {
           key: '1',
           number: 1,
           type: 'Food',
           expense: 'Grocery',
-          amount: 50,
+          amount: -50,
           ddate: moment('10-15-2020').format('L'),
           frequency: 'Bi-weekly'
         },
@@ -199,27 +200,36 @@ class ExpensePage extends React.Component {
           number: 2,
           type: 'Education',
           expense: 'Textbooks',
-          amount: 300,
+          amount: -300,
           ddate: moment('10-28-2020').format('L'),
           frequency: 'Once',
         },
         {
           key: '3',
           number: 3,
+          type: 'Income',
+          expense: 'Salary',
+          amount: 2000,
+          ddate: moment('10-21-2020').format('L'),
+          frequency: 'Once',
+        },
+        {
+          key: '4',
+          number: 4,
           type: 'Miscellanous',
           expense: 'Internet',
-          amount: 65,
+          amount: -65,
           ddate: moment('10-25-2020').format('L'),
           frequency: 'Monthly',
         },
       ],
-      count: 3,
+      count: 4,
     };
   }
 
   handleDelete = key => {
     const dataSource = [...this.state.dataSource];
-    this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
+    this.setState({ dataSource: dataSource.filter(item => item.key !== key), count: this.state.count-1 });
   };
 
   handleAdd = () => {
@@ -258,7 +268,8 @@ class ExpensePage extends React.Component {
         cell: EditableCell,
       },
     };
-    console.log(this.props.categories);
+    console.log(this.props.expenses);
+    console.log(this.props.incomes);
     const columns = this.columns.map(col => {
       if (!col.editable) {
         return col;
@@ -291,142 +302,16 @@ class ExpensePage extends React.Component {
   }
 }
 
-// new
-
-// const ResizableTitle = props => {
-//   const { onResize, width, ...restProps } = props;
-
-//   if (!width) {
-//     return <th {...restProps} />;
-//   }
-
-//   return (
-//     <Resizable
-//       width={width}
-//       height={0}
-//       handle={
-//         <span
-//           className="react-resizable-handle"
-//           onClick={e => {
-//             e.stopPropagation();
-//           }}
-//         />
-//       }
-//       onResize={onResize}
-//       draggableOpts={{ enableUserSelectHack: false }}
-//     >
-//       <th {...restProps} />
-//     </Resizable>
-//   );
-// };
-
-// class ExpensePage extends React.Component {
-//   state = {
-//     columns: [
-      // {
-      //   title: 'No.',
-      //   dataIndex: 'number',
-      //   key: 'number',
-      //   width: 50,
-      // },
-      // {
-      //   title: 'Type',
-      //   dataIndex: 'type',
-      //   key: 'type',
-      //   width: 200,
-      //   sorter: (a, b) => a.type.length - b.type.length,
-      // },
-      // {
-      //   title: 'Expense',
-      //   dataIndex: 'expense',
-      //   key: 'expense',
-      //   width: 200,
-      //   sorter: (a, b) => a.expense.length - b.expense.length,
-      // },
-      // {
-      //   title: 'Amount',
-      //   dataIndex: 'amount',
-      //   width: 200,
-      //   sorter: (a, b) => a.amount - b.amount,
-      // },
-      // {
-      //   title: 'Due date',
-      //   dataIndex: 'ddate',
-      //   key: "ddate",
-      //   width: 200,
-      //   sorter: (a, b) => new Date(a.ddate) - new Date(b.ddate)
-      // },
-      // {
-      //   title: 'Frequency',
-      //   dataIndex: 'frequency',
-      //   key: 'frequency',
-      //   width: 200,
-      // },
-//       {
-//         title: 'Action',
-//         key: 'action',
-//         render: () => <a>Delete</a>,
-//       },
-//     ],
-//     data: [
-      // {
-      //   key: '1',
-      //   number: 1,
-      //   type: 'Food',
-      //   expense: 'Grocery',
-      //   amount: 50,
-      //   ddate: moment('10-15-2020').format('L'),
-      //   frequency: 'Bi-weekly'
-      // },
-      // {
-      //   key: '2',
-      //   number: 2,
-      //   type: 'Education',
-      //   expense: 'Textbooks',
-      //   amount: 300,
-      //   ddate: moment('10-28-2020').format('L'),
-      //   frequency: 'Once',
-      // },
-      // {
-      //   key: '3',
-      //   number: 3,
-      //   type: 'Miscellanous',
-      //   expense: 'Internet',
-      //   amount: 65,
-      //   ddate: moment('10-25-2020').format('L'),
-      //   frequency: 'Monthly',
-      // },
-//     ]    
-//   };
-
-//   components = {
-//     header: {
-//       cell: ResizableTitle,
-//     },
-//   };
-
-//   handleResize = index => (e, { size }) => {
-//     this.setState(({ columns }) => {
-//       const nextColumns = [...columns];
-//       nextColumns[index] = {
-//         ...nextColumns[index],
-//         width: size.width,
-//       };
-//       return { columns: nextColumns };
-//     });
-//   };
-
-//   render() {
-//     const columns = this.state.columns.map((col, index) => ({
-//       ...col,
-//       onHeaderCell: column => ({
-//         width: column.width,
-//         onResize: this.handleResize(index),
-//       }),
-//     }));
-
-//     return <Table bordered components={this.components} columns={columns} dataSource={this.state.data} />;
-//   }
-// }
-
 export default ExpensePage;
+
+
+
+// this.props.expense.map(val => ({
+//   key: 1,
+//   number: 1,
+//   type: 'Food',
+//   expense: 'Grocery',
+//   amount: -50,
+//   ddate: moment('10-15-2020').format('L'),
+//   frequency: 'Bi-weekly'
+// })),
