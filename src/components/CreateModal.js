@@ -142,6 +142,18 @@ const CreateModal = (props) => {
             <Input />
           </Form.Item>
           <Form.Item
+            name="amount"
+            label="Amount"
+            rules={[{ required: true, message: "Please enter an amount!" }]}
+          >
+            <InputNumber
+              formatter={(value) =>
+                `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+              parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+            />
+          </Form.Item>
+          <Form.Item
             name="date"
             label="Date"
             rules={[{ required: true, message: "Please input a date" }]}
