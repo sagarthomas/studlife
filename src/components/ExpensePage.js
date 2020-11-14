@@ -105,12 +105,6 @@ class ExpensePage extends React.Component {
     super(props);
     this.columns = [
       {
-        title: "No.",
-        dataIndex: "number",
-        key: "number",
-        width: 30,
-      },
-      {
         title: "Type",
         dataIndex: "type",
         key: "type",
@@ -180,7 +174,7 @@ class ExpensePage extends React.Component {
             <div>
               <Popconfirm
                 title="Are you sure to delete this expense"
-                onConfirm={() => this.handleDelete(record.key)}
+                onConfirm={() => this.handleDelete(record.name)}
               >
                 <a style={{ marginRight: 5 }}>Delete</a>
               </Popconfirm>
@@ -192,9 +186,80 @@ class ExpensePage extends React.Component {
       },
     ];
 
+    this.incomeColumns = [
+      {
+        title: "Name",
+        dataIndex: "name",
+        key: "name",
+        width: 200,
+        sorter: (a, b) => a.name.length - b.name.length,
+      },
+      {
+        title: "Amount",
+        dataIndex: "amount",
+        width: 200,
+        sorter: (a, b) => a.amount - b.amount,
+      },
+      {
+        title: "Date",
+        dataIndex: "ddate",
+        key: "ddate",
+        width: 200,
+        sorter: (a, b) => new Date(a.ddate) - new Date(b.ddate),
+      },
+      {
+        title: "Frequency",
+        dataIndex: "frequency",
+        key: "frequency",
+        width: 200,
+        sorter: (a, b) => a.frequency.length - b.frequency.length,
+        filters: [
+          {
+            text: "Monthly",
+            value: "Monthly",
+          },
+          {
+            text: "Bi-weekly",
+            value: "Bi-weekly",
+          },
+          {
+            text: "Yearly",
+            value: "Yearly",
+          },
+          {
+            text: "Once",
+            value: "Once",
+          },
+          {
+            text: "Weekly",
+            value: "Weekly",
+          },
+        ],
+        onFilter: (value, record) => record.frequency.indexOf(value) === 0,
+      },
+      {
+        title: "operation",
+        dataIndex: "operation",
+        render: (text, record) =>
+          this.state.dataSource2.length >= 1 ? (
+            <div>
+              <Popconfirm
+                title="Are you sure to delete this income"
+                onConfirm={() => this.handleDeleteIncome(record.key)}
+              >
+                <a style={{ marginRight: 5 }}>Delete</a>
+              </Popconfirm>
+              <Popconfirm title="Are you sure to edit this income?">
+                <a>Edit</a>
+              </Popconfirm>
+            </div>
+          ) : null,
+      },
+    ];
+
     this.state = {
       dataSource: this.props.expenses.map((val) => ({
-        number: "-",
+        key: keyForItem,
         type: val.category,
         expense: val.name,
         amount: -val.amount,
@@ -202,9 +267,8 @@ class ExpensePage extends React.Component {
         frequency: val.frequency,
       })),
       dataSource2: this.props.incomes.map((val) => ({
-        number: "-",
-        type: val.category,
-        expense: val.name,
+        key: keyForItem,
+        name: val.name,
         amount: val.amount,
         ddate: val.date.format("L"),
         frequency: val.frequency,
@@ -217,19 +281,7 @@ class ExpensePage extends React.Component {
     if (this.props.expenses !== prevProps.expenses) {
       this.setState(() => ({
         dataSource: this.props.expenses.map((val) => ({
-          number: "-",
-          type: val.category,
-          expense: val.name,
-          amount: -val.amount,
-          ddate: val.date.format("L"),
-          frequency: val.frequency,
-        })),
-      }));
-    }
-    if (this.props.incomes !== prevProps.incomes) {
-      this.setState(() => ({
-        dataSource2: this.props.incomes.map((val) => ({
-          number: "-",
+          key: keyForItem,
           type: val.category,
           expense: val.name,
           amount: val.amount,
@@ -237,13 +289,35 @@ class ExpensePage extends React.Component {
           frequency: val.frequency,
         })),
       }));
+      this.setState({count: this.state.count + 1});
+      keyForItem += 1;
+    }
+    if (this.props.incomes !== prevProps.incomes) {
+      this.setState(() => ({
+        dataSource2: this.props.incomes.map((val) => ({
+          key: keyForItem,
+          name: val.name,
+          amount: val.amount,
+          ddate: val.date.format("L"),
+          frequency: val.frequency,
+        })),
+      }));
+      keyForItem += 1;
     }
   }
 
-  handleDelete = (key) => {
+  handleDelete = (name) => {
     const dataSource = [...this.state.dataSource];
     this.setState({
-      dataSource: dataSource.filter((item) => item.key !== key),
+      dataSource: dataSource.filter((item) => item.name != name),
+      count: this.state.count - 1,
+    });
+  };
+
+  handleDeleteIncome = (name) => {
+    const dataSource = [...this.state.dataSource2];
+    this.setState({
+      dataSource2: dataSource.filter((item) => item.name != name),
       count: this.state.count - 1,
     });
   };
@@ -301,6 +375,21 @@ class ExpensePage extends React.Component {
         }),
       };
     });
+    const incomeColumns = this.incomeColumns.map((col) => {
+      if (!col.editable) {
+        return col;
+      }
+      return {
+        ...col,
+        onCell: (record) => ({
+          record,
+          editable: col.editable,
+          dataIndex: col.dataIndex,
+          title: col.title,
+          handleSave: this.handleSave,
+        }),
+      };
+    });
     return (
       <div>
         <Button
@@ -323,7 +412,7 @@ class ExpensePage extends React.Component {
           rowClassName={() => "editable-row"}
           bordered
           dataSource={dataSource2}
-          columns={columns}
+          columns={incomeColumns}
         />
       </div>
     );
