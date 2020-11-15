@@ -431,6 +431,9 @@ class ExpensePage extends React.Component {
             ])
           }
         />
+        <div>
+          <h2>Expense Table</h2>
+        </div>
         <Table
           components={components}
           rowClassName={() => "editable-row"}
@@ -438,7 +441,9 @@ class ExpensePage extends React.Component {
           dataSource={dataSource}
           columns={columns}
         />
-
+        <div>
+          <h2>Income Table</h2>
+        </div>
         <Table
           components={components}
           rowClassName={() => "editable-row"}
