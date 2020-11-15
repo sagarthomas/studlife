@@ -13,6 +13,7 @@ class BudgetPage extends React.Component {
     this.findPercent = this.findPercent.bind(this);
     this.getAmountSpent = this.getAmountSpent.bind(this);
     
+    
   }
 
 
