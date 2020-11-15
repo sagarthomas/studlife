@@ -25,6 +25,7 @@ const defaultExpenses = [];
 const defaltIncomes = [];
 const defaultBudgets = [];
 const defaultCategories = ["Food", "Entertainment", "Grocery"];
+const defaultDeals = [{dealID: "1", store: "Lazeez Shawarma", discount: "$7 Student Lunch Special", distance: "3", category: "Food"}, {dealID: "2", store: "Fortino's", discount: "10% Off", distance: "2", category: "Grocery"}, {dealID: "3", store: "Cineplex", discount: "Buy one get one free", distance: "5", category: "Entertainment"}, {dealID: "4", store: "Subway", discount: "$5 Footlongs", distance: "1", category: "Food"}, {dealID: "5", store: "Food Basics", discount: "10% Off", distance: "2", category: "Grocery"}, {dealID: "6", store: "Osmow's Mediterranean Cuisine", discount: "$5 On the Rocks", distance: "1.5", category: "Food"}];
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
@@ -34,6 +35,7 @@ function App() {
   const [incomes, setIncomes] = useState(defaltIncomes);
   const [budgets, setBudgets] = useState(defaultBudgets);
   const [categories, setCategories] = useState(defaultCategories); // Used for budget and expense categories
+  const [deals] = useState(defaultDeals);
 
   /*
   The following code is present to determine which page should be highlighted on refresh.
@@ -152,7 +154,8 @@ function App() {
                 <Route path="/expenses" component={ExpensePage} />
                 <Route path="/budgets" exact render={(props) => <BudgetPage {...props}
                 budgets={budgets} setBudgets={setBudgets} expenses={expenses} />} />
-                <Route path="/deals" component={DealsPage} />
+                <Route path="/deals" exact render={(props) => <DealsPage {...props}
+                deals={deals} />} />
                 <Route path="/housing" component={HousingPage} />
               </Content>
             </Layout>
