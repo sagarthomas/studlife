@@ -35,6 +35,25 @@ function App() {
   const [budgets, setBudgets] = useState(defaultBudgets);
   const [categories, setCategories] = useState(defaultCategories); // Used for budget and expense categories
 
+  /*
+  The following code is present to determine which page should be highlighted on refresh.
+  (in case the browser is refreshed on a page that is not the home page)
+  */
+  let defaultPage = ["1"];
+  let currentPath = window.location.href.split("/");
+  currentPath = currentPath[currentPath.length - 1];
+  if (currentPath === "") {
+    defaultPage = ["1"];
+  } else if (currentPath === "expenses") {
+    defaultPage = ["2"];
+  } else if (currentPath === "budgets") {
+    defaultPage = ["3"];
+  } else if (currentPath === "deals") {
+    defaultPage = ["4"];
+  } else if (currentPath === "housing") {
+    defaultPage = ["5"];
+  }
+
   const createMenu = (
     <Menu>
       <Menu.Item
@@ -104,7 +123,7 @@ function App() {
               <Menu
                 theme="dark"
                 mode="inline"
-                defaultSelectedKeys={["1"]}
+                defaultSelectedKeys={defaultPage}
                 style={{ height: "100%", borderRight: 0 }}
               >
                 <Menu.Item key="1" icon={<DashboardOutlined />}>
@@ -130,9 +149,31 @@ function App() {
                 style={{ padding: 24, margin: 0, minHeight: 280 }}
               >
                 <Route exact path="/" component={DashboardPage} />
-                <Route path="/expenses" component={ExpensePage} />
-                <Route path="/budgets" exact render={(props) => <BudgetPage {...props}
-                budgets={budgets} setBudgets={setBudgets} expenses={expenses} />} />
+                <Route
+                  path="/expenses"
+                  exact
+                  render={(props) => (
+                    <ExpensePage
+                      {...props}
+                      categories={categories}
+                      expenses={expenses}
+                      setExpenses={setExpenses}
+                      incomes={incomes}
+                      setIncomes={setIncomes}
+                    />
+                  )}
+                />
+                <Route
+                  path="/budgets"
+                  exact
+                  render={(props) => (
+                    <BudgetPage
+                      {...props}
+                      budgets={budgets}
+                      setBudgets={setBudgets}
+                    />
+                  )}
+                />
                 <Route path="/deals" component={DealsPage} />
                 <Route path="/housing" component={HousingPage} />
               </Content>
