@@ -1,5 +1,6 @@
-import { Modal, Form, Input, InputNumber, Select, DatePicker } from "antd";
 import React from "react";
+import { Modal, Form, Input, InputNumber, Select, DatePicker } from "antd";
+import { v4 } from "uuid";
 
 const { Option } = Select;
 
@@ -24,7 +25,7 @@ const CreateModal = (props) => {
                 expenseForm.resetFields();
                 console.log(values);
 
-                props.addItem({ ...values });
+                props.addItem({ id: v4(), ...values });
                 props.onCancel();
               })
               .catch((err) => console.log(err));
@@ -37,7 +38,7 @@ const CreateModal = (props) => {
                 incomeForm.resetFields();
                 console.log(values);
 
-                props.addItem({ ...values });
+                props.addItem({ id: v4(), ...values });
                 props.onCancel();
               })
               .catch((err) => console.log(err));
@@ -140,6 +141,18 @@ const CreateModal = (props) => {
             ]}
           >
             <Input />
+          </Form.Item>
+          <Form.Item
+            name="amount"
+            label="Amount"
+            rules={[{ required: true, message: "Please enter an amount!" }]}
+          >
+            <InputNumber
+              formatter={(value) =>
+                `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+              parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+            />
           </Form.Item>
           <Form.Item
             name="date"
