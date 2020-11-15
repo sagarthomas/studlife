@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { PlusOutlined, DownOutlined } from "@ant-design/icons";
+import {
+  DownOutlined,
+  DashboardOutlined,
+  DollarOutlined,
+  EuroOutlined,
+  TagsOutlined,
+  HomeOutlined,
+} from "@ant-design/icons";
 import { BrowserRouter as Router, NavLink, Route } from "react-router-dom";
 import { Button, Layout, Menu, Dropdown } from "antd";
 
@@ -100,19 +107,19 @@ function App() {
                 defaultSelectedKeys={["1"]}
                 style={{ height: "100%", borderRight: 0 }}
               >
-                <Menu.Item key="1">
+                <Menu.Item key="1" icon={<DashboardOutlined />}>
                   <NavLink to="/">Dashboard</NavLink>
                 </Menu.Item>
-                <Menu.Item key="2">
+                <Menu.Item key="2" icon={<DollarOutlined />}>
                   <NavLink to="/expenses">Expenses</NavLink>
                 </Menu.Item>
-                <Menu.Item key="3">
+                <Menu.Item key="3" icon={<EuroOutlined />}>
                   <NavLink to="/budgets">Budgets</NavLink>
                 </Menu.Item>
-                <Menu.Item key="4">
+                <Menu.Item key="4" icon={<TagsOutlined />}>
                   <NavLink to="/deals">Deals</NavLink>
                 </Menu.Item>
-                <Menu.Item key="5">
+                <Menu.Item key="5" icon={<HomeOutlined />}>
                   <NavLink to="/housing">Housing</NavLink>
                 </Menu.Item>
               </Menu>
@@ -125,7 +132,7 @@ function App() {
                 <Route exact path="/" component={DashboardPage} />
                 <Route path="/expenses" component={ExpensePage} />
                 <Route path="/budgets" exact render={(props) => <BudgetPage {...props}
-                budgets={budgets} setBudgets={setBudgets} />} />
+                budgets={budgets} setBudgets={setBudgets} expenses={expenses} />} />
                 <Route path="/deals" component={DealsPage} />
                 <Route path="/housing" component={HousingPage} />
               </Content>
