@@ -174,7 +174,7 @@ class ExpensePage extends React.Component {
             <div>
               <Popconfirm
                 title="Are you sure to delete this expense"
-                onConfirm={() => this.handleDelete(record.name)}
+                onConfirm={() => this.handleDelete(record.key)}
               >
                 <a style={{ marginRight: 5 }}>Delete</a>
               </Popconfirm>
@@ -259,15 +259,15 @@ class ExpensePage extends React.Component {
 
     this.state = {
       dataSource: this.props.expenses.map((val) => ({
-        key: keyForItem,
+        key: val.id,
         type: val.category,
         expense: val.name,
-        amount: -val.amount,
+        amount: val.amount,
         ddate: val.date.format("L"),
         frequency: val.frequency,
       })),
       dataSource2: this.props.incomes.map((val) => ({
-        key: keyForItem,
+        key: val.id,
         name: val.name,
         amount: val.amount,
         ddate: val.date.format("L"),
@@ -281,7 +281,7 @@ class ExpensePage extends React.Component {
     if (this.props.expenses !== prevProps.expenses) {
       this.setState(() => ({
         dataSource: this.props.expenses.map((val) => ({
-          key: keyForItem,
+          key: val.id,
           type: val.category,
           expense: val.name,
           amount: val.amount,
@@ -295,7 +295,7 @@ class ExpensePage extends React.Component {
     if (this.props.incomes !== prevProps.incomes) {
       this.setState(() => ({
         dataSource2: this.props.incomes.map((val) => ({
-          key: keyForItem,
+          key: val.id,
           name: val.name,
           amount: val.amount,
           ddate: val.date.format("L"),
@@ -306,36 +306,19 @@ class ExpensePage extends React.Component {
     }
   }
 
-  handleDelete = (name) => {
+  handleDelete = (key) => {
     const dataSource = [...this.state.dataSource];
     this.setState({
-      dataSource: dataSource.filter((item) => item.name != name),
+      dataSource: dataSource.filter((item) => item.key != key),
       count: this.state.count - 1,
     });
   };
 
-  handleDeleteIncome = (name) => {
+  handleDeleteIncome = (key) => {
     const dataSource = [...this.state.dataSource2];
     this.setState({
-      dataSource2: dataSource.filter((item) => item.name != name),
+      dataSource2: dataSource.filter((item) => item.key != key),
       count: this.state.count - 1,
-    });
-  };
-
-  handleAdd = () => {
-    const { count, dataSource } = this.state;
-    const newData = {
-      key: count + 1,
-      number: count + 1,
-      type: `Miscellanous`,
-      expense: `Cell-phone bill`,
-      amount: 40,
-      ddate: moment("10-22-2020").format("L"),
-      frequency: "Monthly",
-    };
-    this.setState({
-      dataSource: [...dataSource, newData],
-      count: count + 1,
     });
   };
 
@@ -392,13 +375,6 @@ class ExpensePage extends React.Component {
     });
     return (
       <div>
-        <Button
-          onClick={this.handleAdd}
-          type="primary"
-          style={{ marginBottom: 16 }}
-        >
-          Add a row
-        </Button>
         <Table
           components={components}
           rowClassName={() => "editable-row"}
