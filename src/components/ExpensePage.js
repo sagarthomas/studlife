@@ -4,6 +4,7 @@ import { Resizable } from "react-resizable";
 import moment from "moment";
 import "../App.css";
 
+import EditModal from "./EditModal";
 //Reference: https://stackoverflow.com/questions/59467345/how-can-i-update-and-delete-selected-rows-in-antd-table
 // https://codesandbox.io/s/fkc2j?file=/index.js
 
@@ -178,7 +179,16 @@ class ExpensePage extends React.Component {
               >
                 <a style={{ marginRight: 5 }}>Delete</a>
               </Popconfirm>
-              <Popconfirm title="Are you sure to edit this expense?">
+              <Popconfirm
+                title="Are you sure to edit this expense?"
+                onConfirm={() => {
+                  this.setState(() => ({
+                    recordToEdit: record,
+                    editModalVisibility: true,
+                    editType: "expense",
+                  }));
+                }}
+              >
                 <a>Edit</a>
               </Popconfirm>
             </div>
@@ -249,7 +259,16 @@ class ExpensePage extends React.Component {
               >
                 <a style={{ marginRight: 5 }}>Delete</a>
               </Popconfirm>
-              <Popconfirm title="Are you sure to edit this income?">
+              <Popconfirm
+                title="Are you sure to edit this income?"
+                onConfirm={() => {
+                  this.setState(() => ({
+                    recordToEdit: record,
+                    editModalVisibility: true,
+                    editType: "income",
+                  }));
+                }}
+              >
                 <a>Edit</a>
               </Popconfirm>
             </div>
@@ -263,7 +282,7 @@ class ExpensePage extends React.Component {
         type: val.category,
         expense: val.name,
         amount: val.amount,
-        ddate: val.date.format("L"),
+        ddate: val.date,
         frequency: val.frequency,
       })),
       dataSource2: this.props.incomes.map((val) => ({
@@ -274,6 +293,9 @@ class ExpensePage extends React.Component {
         frequency: val.frequency,
       })),
       count: 0,
+      editModalVisibility: false,
+      recordToEdit: undefined,
+      editType: undefined,
     };
   }
 
@@ -289,7 +311,7 @@ class ExpensePage extends React.Component {
           frequency: val.frequency,
         })),
       }));
-      this.setState({count: this.state.count + 1});
+      this.setState({ count: this.state.count + 1 });
       keyForItem += 1;
     }
     if (this.props.incomes !== prevProps.incomes) {
@@ -341,8 +363,8 @@ class ExpensePage extends React.Component {
         cell: EditableCell,
       },
     };
-    console.log(this.props.expenses);
-    console.log(this.props.incomes);
+    // console.log(this.props.expenses);
+    // console.log(this.props.incomes);
     const columns = this.columns.map((col) => {
       if (!col.editable) {
         return col;
@@ -375,6 +397,31 @@ class ExpensePage extends React.Component {
     });
     return (
       <div>
+        <EditModal
+          visible={this.state.editModalVisibility}
+          item={this.state.recordToEdit}
+          type={this.state.editType}
+          hide={() =>
+            this.setState(() => ({
+              editModalVisibility: false,
+              editType: undefined,
+              recordToEdit: undefined,
+            }))
+          }
+          categories={this.props.categories}
+          editExpense={(editedItem) =>
+            this.props.setExpenses([
+              ...this.props.expenses.filter((e) => e.id !== editedItem.id),
+              editedItem,
+            ])
+          }
+          editIncome={(editedItem) =>
+            this.props.setIncomes([
+              ...this.props.incomes.filter((e) => e.id !== editedItem.id),
+              editedItem,
+            ])
+          }
+        />
         <Table
           components={components}
           rowClassName={() => "editable-row"}
