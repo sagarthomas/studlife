@@ -129,6 +129,7 @@ class ExpensePage extends React.Component {
         dataIndex: "amount",
         width: 200,
         sorter: (a, b) => a.amount - b.amount,
+        render: (amount) => <span>${amount}</span>,
       },
       {
         title: "Due date",
@@ -172,7 +173,7 @@ class ExpensePage extends React.Component {
         onFilter: (value, record) => record.frequency.indexOf(value) === 0,
       },
       {
-        title: "operation",
+        title: "Operations",
         dataIndex: "operation",
         render: (text, record) =>
           this.state.dataSource.length >= 1 ? (
@@ -213,6 +214,7 @@ class ExpensePage extends React.Component {
         dataIndex: "amount",
         width: 200,
         sorter: (a, b) => a.amount - b.amount,
+        render: (amount) => <span>${amount}</span>,
       },
       {
         title: "Date",
@@ -256,7 +258,7 @@ class ExpensePage extends React.Component {
         onFilter: (value, record) => record.frequency.indexOf(value) === 0,
       },
       {
-        title: "operation",
+        title: "Operations",
         dataIndex: "operation",
         render: (text, record) =>
           this.state.dataSource2.length >= 1 ? (
@@ -336,12 +338,12 @@ class ExpensePage extends React.Component {
 
   handleDelete = (key) => {
     const dataSource = [...this.state.dataSource];
-    this.props.setExpenses(this.props.expenses.filter(e => e.id != key));
+    this.props.setExpenses(this.props.expenses.filter((e) => e.id != key));
   };
 
   handleDeleteIncome = (key) => {
     const dataSource = [...this.state.dataSource2];
-    this.props.setIncomes(this.props.incomes.filter(e => e.id != key));
+    this.props.setIncomes(this.props.incomes.filter((e) => e.id != key));
   };
 
   handleSave = (row) => {
@@ -364,7 +366,7 @@ class ExpensePage extends React.Component {
       },
     };
     console.log("in main exp", this.props.expenses);
-    console.log("in main sta",this.state.dataSource);
+    console.log("in main sta", this.state.dataSource);
     const columns = this.columns.map((col) => {
       if (!col.editable) {
         return col;
