@@ -145,24 +145,28 @@ class ExpensePage extends React.Component {
         sorter: (a, b) => a.frequency.length - b.frequency.length,
         filters: [
           {
+            text: "Daily",
+            value: "daily",
+          },
+          {
             text: "Monthly",
-            value: "Monthly",
+            value: "monthly",
           },
           {
             text: "Bi-weekly",
-            value: "Bi-weekly",
+            value: "bi-weekly",
           },
           {
             text: "Yearly",
-            value: "Yearly",
+            value: "yearly",
           },
           {
             text: "Once",
-            value: "Once",
+            value: "once",
           },
           {
             text: "Weekly",
-            value: "Weekly",
+            value: "weekly",
           },
         ],
         onFilter: (value, record) => record.frequency.indexOf(value) === 0,
@@ -225,24 +229,28 @@ class ExpensePage extends React.Component {
         sorter: (a, b) => a.frequency.length - b.frequency.length,
         filters: [
           {
+            text: "Daily",
+            value: "daily",
+          },
+          {
             text: "Monthly",
-            value: "Monthly",
+            value: "monthly",
           },
           {
             text: "Bi-weekly",
-            value: "Bi-weekly",
+            value: "bi-weekly",
           },
           {
             text: "Yearly",
-            value: "Yearly",
+            value: "yearly",
           },
           {
             text: "Once",
-            value: "Once",
+            value: "once",
           },
           {
             text: "Weekly",
-            value: "Weekly",
+            value: "weekly",
           },
         ],
         onFilter: (value, record) => record.frequency.indexOf(value) === 0,
@@ -282,7 +290,7 @@ class ExpensePage extends React.Component {
         type: val.category,
         expense: val.name,
         amount: val.amount,
-        ddate: val.date,
+        ddate: val.date.format("L"),
         frequency: val.frequency,
       })),
       dataSource2: this.props.incomes.map((val) => ({
@@ -363,8 +371,9 @@ class ExpensePage extends React.Component {
         cell: EditableCell,
       },
     };
-    // console.log(this.props.expenses);
-    // console.log(this.props.incomes);
+    console.log(this.props.categories);
+    console.log(this.props.expenses);
+    console.log(this.props.incomes);
     const columns = this.columns.map((col) => {
       if (!col.editable) {
         return col;
@@ -422,6 +431,9 @@ class ExpensePage extends React.Component {
             ])
           }
         />
+        <div>
+          <h2>Expense Table</h2>
+        </div>
         <Table
           components={components}
           rowClassName={() => "editable-row"}
@@ -429,7 +441,9 @@ class ExpensePage extends React.Component {
           dataSource={dataSource}
           columns={columns}
         />
-
+        <div>
+          <h2>Income Table</h2>
+        </div>
         <Table
           components={components}
           rowClassName={() => "editable-row"}
