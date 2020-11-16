@@ -219,7 +219,16 @@ function App() {
                     />
                   )}
                 />
-                <Route path="/deals" component={DealsPage} />
+                <Route
+                  path="/deals"
+                  exact
+                  render={(props) => (
+                    <BudgetPage
+                      {...props}
+                      deals={deals}
+                    />
+                  )}
+                />
                 <Route path="/housing" component={HousingPage} />
               </Content>
             </Layout>
