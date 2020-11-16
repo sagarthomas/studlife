@@ -48,19 +48,48 @@ class BudgetPage extends React.Component {
   findPercent(b) {
     var spent = this.getAmountSpent(b.category);
     var target = parseInt(b.target);
-    //console.log((spent*1.0)/target);
     console.log("Spent: " + this.getAmountSpent(b.category));
     return ((spent*100.0)/target);
   }
 
+  findTotalBudgetAndSpent() {
+
+    var totalBudget = 0;
+    var totalSpent = 0;
+
+    this.props.budgets.forEach(element => {
+      totalBudget += element.target;
+      totalSpent += this.getAmountSpent(element.category);
+    });
+
+    totalBudget = parseInt(totalBudget);
+    totalSpent = parseInt(totalSpent);
+
+    return ([totalSpent, totalBudget]);
+
+  }
+
+  getTotalPercent() {
+    if (this.findTotalBudgetAndSpent() != [0,0]) {
+      var percent = ((this.findTotalBudgetAndSpent()[0]*100.0))/(this.findTotalBudgetAndSpent()[1].toFixed(0));
+      return percent.toFixed(0);
+    }
+  }
+
   getAmountSpent(c) {
+
+    var now = moment().startOf("hour");
 
     var spent = 0;
 
     for (let index = 0; index < this.props.expenses.length; index++) {
       if (this.props.expenses[index].category == c) {
-        console.log(this.props.expenses[index]);
-        spent += this.props.expenses[index].amount;
+        var date = this.props.expenses[index].date;
+        var duration = moment.duration(date.diff(now))
+        
+        if (duration.as("days") <= 1 && date.month() == now.month()) {
+          spent += this.props.expenses[index].amount;
+        }
       }      
     }
 
@@ -79,10 +108,11 @@ class BudgetPage extends React.Component {
 
     return (
       <Space direction="vertical">
-        <Progress percent="75" type="circle" />
-        <Title>CURRENT MONTH Budget</Title>
+        <Progress percent={this.getTotalPercent()} type="circle" />
+        <Title>{moment.months(moment().startOf("hour").month())} Budget</Title>
+        <h3>${this.findTotalBudgetAndSpent()[0]}/${this.findTotalBudgetAndSpent()[1]}</h3>
         <Divider />
-        {this.props.budgets.map((e) => <Card><h3>{e.category}</h3> <Progress percent={this.findPercent(e)} /> <h4>{e.target}/{e.target}</h4> <Divider />
+        {this.props.budgets.map((e) => <Card><h3>{e.category}</h3> <Progress percent={this.findPercent(e)} /> <h4>${this.getAmountSpent(e.category)}/${e.target}</h4> <Divider />
 
         <Popover
           visible={this.state.visible}
@@ -92,7 +122,7 @@ class BudgetPage extends React.Component {
             title="New spending target:"
             trigger="click"
           >
-            <a onClick={() => this.setCurrentEdit(e.category)} >Edit</a>
+            <a onClick={() => this.setCurrentEdit(e.category)} >Edit </a>
         </Popover> 
 
         <Popconfirm

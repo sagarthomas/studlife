@@ -50,9 +50,11 @@ const CreateModal = (props) => {
               .validateFields()
               .then((values) => {
                 budgetForm.resetFields();
-                console.log(values);
+                const object = { id: v4(), ...values };
+                console.log(object);
 
-                props.addItem({ ...values });
+                props.addItem(object);
+
                 props.onCancel();
               })
               .catch((err) => console.log(err));
