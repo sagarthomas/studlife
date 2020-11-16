@@ -49,7 +49,7 @@ class BudgetPage extends React.Component {
     var spent = this.getAmountSpent(b.category);
     var target = parseInt(b.target);
     console.log("Spent: " + this.getAmountSpent(b.category));
-    return ((spent*100.0)/target);
+    return ((spent*100.0)/target).toFixed(0);
   }
 
   findTotalBudgetAndSpent() {
@@ -70,10 +70,14 @@ class BudgetPage extends React.Component {
   }
 
   getTotalPercent() {
-    if (this.findTotalBudgetAndSpent() != [0,0]) {
-      var percent = ((this.findTotalBudgetAndSpent()[0]*100.0))/(this.findTotalBudgetAndSpent()[1].toFixed(0));
-      return percent.toFixed(0);
+
+    var percent = 0;
+
+    if (this.findTotalBudgetAndSpent() != [0,0] && this.findTotalBudgetAndSpent()[1] != 0) {
+      percent = ((this.findTotalBudgetAndSpent()[0]*100.0))/(this.findTotalBudgetAndSpent()[1].toFixed(0));
     }
+
+    return percent.toFixed(0);
   }
 
   getAmountSpent(c) {
