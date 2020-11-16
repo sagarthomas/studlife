@@ -10,8 +10,18 @@ import {
   List,
   Drawer,
 } from "antd";
+import Meta from "antd/lib/card/Meta";
+
+import lazeez from "./lazeez.jpg";
+import fortinos from "./fortinos.jpg";
+import cineplex from "./cineplex.png";
+import subway from "./subway.jpg";
+import foodbasics from "./foodbasics.jpg";
+import osmows from "./osmows.png";
 
 const DashboardPage = (props) => {
+  const images = [lazeez, fortinos, cineplex, subway, foodbasics, osmows];
+
   return (
     <div>
       <Row style={{ padding: "10px" }}>
@@ -46,9 +56,9 @@ const DashboardPage = (props) => {
       <Row style={{ padding: "10px" }}>
         <Col span={24}>
           <Card title="Latest Deals">
-            {/* <List
+            <List
               grid={{ gutter: 16, column: 4 }}
-              dataSource={dealsData}
+              dataSource={props.deals}
               renderItem={(item) => (
                 <List.Item>
                   <Card
@@ -57,16 +67,15 @@ const DashboardPage = (props) => {
                         alt="some"
                         width={150}
                         height={150}
-                        src={item.imgSrc}
+                        src={images[item.dealID - 1]}
                       />
                     }
-                    actions={[<StarOutlined key="favourite" />]}
                   >
-                    <Meta title={item.deal} description={item.description} />
+                    <Meta title={item.store} description={item.discount} />
                   </Card>
                 </List.Item>
               )}
-            /> */}
+            />
           </Card>
         </Col>
       </Row>
