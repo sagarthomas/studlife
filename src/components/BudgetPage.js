@@ -49,7 +49,35 @@ class BudgetPage extends React.Component {
     var spent = this.getAmountSpent(b.category);
     var target = parseInt(b.target);
     console.log("Spent: " + this.getAmountSpent(b.category));
-    return ((spent*100.0)/target);
+    return ((spent*100.0)/target).toFixed(0);
+  }
+
+  findTotalBudgetAndSpent() {
+
+    var totalBudget = 0;
+    var totalSpent = 0;
+
+    this.props.budgets.forEach(element => {
+      totalBudget += element.target;
+      totalSpent += this.getAmountSpent(element.category);
+    });
+
+    totalBudget = parseInt(totalBudget);
+    totalSpent = parseInt(totalSpent);
+
+    return ([totalSpent, totalBudget]);
+
+  }
+
+  getTotalPercent() {
+
+    var percent = 0;
+
+    if (this.findTotalBudgetAndSpent() != [0,0] && this.findTotalBudgetAndSpent()[1] != 0) {
+      percent = ((this.findTotalBudgetAndSpent()[0]*100.0))/(this.findTotalBudgetAndSpent()[1].toFixed(0));
+    }
+
+    return percent.toFixed(0);
   }
 
   findTotalBudgetAndSpent() {
@@ -112,7 +140,11 @@ class BudgetPage extends React.Component {
         <h3>${this.findTotalBudgetAndSpent()[0]}/${this.findTotalBudgetAndSpent()[1]}</h3>
         <Divider />
         {this.props.budgets.map((e) => <Card><h3>{e.category}</h3> <Progress percent={this.findPercent(e)} /> <h4>${this.getAmountSpent(e.category)}/${e.target}</h4> <Divider />
+<<<<<<< HEAD
       
+=======
+
+>>>>>>> 0e0e507cbd7ba0ef616ca3904203de6e411686c6
         <Popover
           visible={this.state.visible}
           content={<Space><InputNumber formatter={(value) => `$ ${value}`} defaultValue={e.target} onChange={this.updateBudget} /> 
