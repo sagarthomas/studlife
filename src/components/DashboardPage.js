@@ -21,6 +21,51 @@ import osmows from "./osmows.png";
 
 const DashboardPage = (props) => {
   const images = [lazeez, fortinos, cineplex, subway, foodbasics, osmows];
+  const expenseColumns = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Amount",
+      dataIndex: "amount",
+      key: "amount",
+      render: (amount) => <p>${amount} </p>,
+    },
+    {
+      title: "Category",
+      dataIndex: "category",
+      key: "category",
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
+      render: (date) => date.format("L"),
+    },
+  ];
+  const incomeColumns = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Amount",
+      dataIndex: "amount",
+      key: "amount",
+      render: (amount) => <p>${amount} </p>,
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
+      render: (date) => date.format("L"),
+    },
+  ];
 
   return (
     <div>
@@ -44,12 +89,12 @@ const DashboardPage = (props) => {
         </Col>
         <Col flex={2}>
           <Card title=" Recent Expenses" style={{ height: "380px" }}>
-            {/* <Table columns={expenseColumns} dataSource={expenseData}></Table> */}
+            <Table columns={expenseColumns} dataSource={props.expenses}></Table>
           </Card>
         </Col>
         <Col flex={2}>
           <Card title="Recent Income" style={{ height: "380px" }}>
-            {/* <Table columns={incomeColumns} dataSource={incomeData}></Table> */}
+            <Table columns={incomeColumns} dataSource={props.incomes}></Table>
           </Card>
         </Col>
       </Row>

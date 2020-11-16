@@ -238,7 +238,14 @@ function App() {
                 <Route
                   exact
                   path="/"
-                  render={(props) => <DashboardPage {...props} deals={deals} />}
+                  render={(props) => (
+                    <DashboardPage
+                      {...props}
+                      deals={deals}
+                      expenses={expenses}
+                      incomes={incomes}
+                    />
+                  )}
                 />
                 <Route
                   path="/expenses"
