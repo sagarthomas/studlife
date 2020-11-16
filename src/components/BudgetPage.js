@@ -140,11 +140,6 @@ class BudgetPage extends React.Component {
         <h3>${this.findTotalBudgetAndSpent()[0]}/${this.findTotalBudgetAndSpent()[1]}</h3>
         <Divider />
         {this.props.budgets.map((e) => <Card><h3>{e.category}</h3> <Progress percent={this.findPercent(e)} /> <h4>${this.getAmountSpent(e.category)}/${e.target}</h4> <Divider />
-<<<<<<< HEAD
-      
-=======
-
->>>>>>> 0e0e507cbd7ba0ef616ca3904203de6e411686c6
         <Popover
           visible={this.state.visible}
           content={<Space><InputNumber formatter={(value) => `$ ${value}`} defaultValue={e.target} onChange={this.updateBudget} /> 
