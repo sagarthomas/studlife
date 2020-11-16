@@ -223,7 +223,7 @@ function App() {
                   path="/deals"
                   exact
                   render={(props) => (
-                    <BudgetPage
+                    <DealsPage
                       {...props}
                       deals={deals}
                     />
