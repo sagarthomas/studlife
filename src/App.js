@@ -9,6 +9,7 @@ import {
 } from "@ant-design/icons";
 import { BrowserRouter as Router, NavLink, Route } from "react-router-dom";
 import { Button, Layout, Menu, Dropdown } from "antd";
+import moment from "moment";
 
 import DashboardPage from "./components/DashboardPage";
 import ExpensePage from "./components/ExpensePage";
@@ -21,9 +22,50 @@ import CreateModal from "./components/CreateModal";
 
 const { Header, Content, Sider } = Layout;
 
-const defaultExpenses = [];
-const defaltIncomes = [];
-const defaultBudgets = [];
+const defaultExpenses = [
+  {
+    id: "92b3c0c0-3820-49c0-836a-53c35b613407",
+    name: "Pinks",
+    amount: 14,
+    category: "Food",
+    date: moment("2020-11-15"),
+    frequency: "once",
+  },
+  {
+    id: "7e5cad28-759d-4c02-8cf8-e01a3b9b612d",
+    name: "No-Frills",
+    amount: 120,
+    category: "Grocery",
+    date: moment("2020-11-8"),
+    frequency: "once",
+  },
+];
+const defaltIncomes = [
+  {
+    id: "85df700f-4e01-4156-b76b-cdf2fb97bb56",
+    name: "Tutoring",
+    amount: 50,
+    date: moment("2020-11-9"),
+    frequency: "weekly",
+  },
+];
+const defaultBudgets = [
+  {
+    id: "072cdc1b-897d-4ffe-a54b-bd3dba0dd524",
+    category: "Food",
+    target: 300,
+  },
+  {
+    id: "244c7b71-33e9-4b90-aca0-5c17bb2bed66",
+    category: "Entertainment",
+    target: 100,
+  },
+  {
+    id: "cf46d7e6-fba2-4c59-919b-31059a308ab6",
+    category: "Grocery",
+    target: 400,
+  },
+];
 const defaultCategories = ["Food", "Entertainment", "Grocery"];
 
 function App() {
@@ -149,7 +191,20 @@ function App() {
                 style={{ padding: 24, margin: 0, minHeight: 280 }}
               >
                 <Route exact path="/" component={DashboardPage} />
-                <Route path="/expenses" component={ExpensePage} />
+                <Route
+                  path="/expenses"
+                  exact
+                  render={(props) => (
+                    <ExpensePage
+                      {...props}
+                      categories={categories}
+                      expenses={expenses}
+                      setExpenses={setExpenses}
+                      incomes={incomes}
+                      setIncomes={setIncomes}
+                    />
+                  )}
+                />
                 <Route
                   path="/budgets"
                   exact

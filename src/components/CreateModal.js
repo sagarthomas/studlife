@@ -1,5 +1,6 @@
-import { Modal, Form, Input, InputNumber, Select, DatePicker } from "antd";
 import React from "react";
+import { Modal, Form, Input, InputNumber, Select, DatePicker } from "antd";
+import { v4 } from "uuid";
 
 const { Option } = Select;
 
@@ -22,9 +23,10 @@ const CreateModal = (props) => {
               .validateFields()
               .then((values) => {
                 expenseForm.resetFields();
-                console.log(values);
+                const object = { id: v4(), ...values };
+                console.log(object);
 
-                props.addItem({ ...values });
+                props.addItem(object);
                 props.onCancel();
               })
               .catch((err) => console.log(err));
@@ -35,9 +37,10 @@ const CreateModal = (props) => {
               .validateFields()
               .then((values) => {
                 incomeForm.resetFields();
-                console.log(values);
+                const object = { id: v4(), ...values };
+                console.log(object);
 
-                props.addItem({ ...values });
+                props.addItem(object);
                 props.onCancel();
               })
               .catch((err) => console.log(err));
@@ -47,9 +50,11 @@ const CreateModal = (props) => {
               .validateFields()
               .then((values) => {
                 budgetForm.resetFields();
-                console.log(values);
+                const object = { id: v4(), ...values };
+                console.log(object);
 
-                props.addItem({ ...values });
+                props.addItem(object);
+
                 props.onCancel();
               })
               .catch((err) => console.log(err));
@@ -140,6 +145,18 @@ const CreateModal = (props) => {
             ]}
           >
             <Input />
+          </Form.Item>
+          <Form.Item
+            name="amount"
+            label="Amount"
+            rules={[{ required: true, message: "Please enter an amount!" }]}
+          >
+            <InputNumber
+              formatter={(value) =>
+                `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+              parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+            />
           </Form.Item>
           <Form.Item
             name="date"
