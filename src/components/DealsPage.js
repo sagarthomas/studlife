@@ -1,10 +1,10 @@
 import React from "react";
 import {Card, Divider, Image, Row, Col} from "antd";
-import lazeez from './lazeez.png';
+import lazeez from './lazeez.jpg';
 import fortinos from './fortinos.jpg';
 import cineplex from './cineplex.png';
-import subway from './subway.png';
-import foodbasics from './foodbasics.png';
+import subway from './subway.jpg';
+import foodbasics from './foodbasics.jpg';
 import osmows from './osmows.png';
 
 class DealsPage extends React.Component {

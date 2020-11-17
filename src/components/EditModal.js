@@ -11,9 +11,9 @@ const EditModal = (props) => {
   useEffect(() => {
     if (props.type === "expense") {
       expenseForm.setFieldsValue({
-        name: props.item.expense,
+        name: props.item.name,
         amount: props.item.amount,
-        category: props.item.type,
+        category: props.item.category,
         date: moment(props.item.ddate),
         frequency: props.item.frequency,
       });

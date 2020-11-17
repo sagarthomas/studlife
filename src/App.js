@@ -67,8 +67,53 @@ const defaultBudgets = [
   },
 ];
 const defaultCategories = ["Food", "Entertainment", "Grocery"];
-const defaultDeals = [{dealID: "1", store: "Lazeez Shawarma", discount: "$7 Student Lunch Special", distance: "3", category: "Food"}, {dealID: "2", store: "Fortino's", discount: "10% Off", distance: "2", category: "Grocery"}, {dealID: "3", store: "Cineplex", discount: "Buy one get one free", distance: "5", category: "Entertainment"}, {dealID: "4", store: "Subway", discount: "$5 Footlongs", distance: "1", category: "Food"}, {dealID: "5", store: "Food Basics", discount: "10% Off", distance: "2", category: "Grocery"}, {dealID: "6", store: "Osmow's Mediterranean", discount: "$5 On the Rocks", distance: "1.5", category: "Food"}];
+const defaultDeals = [
+  {
+    dealID: "1",
+    store: "Lazeez Shawarma",
+    discount: "$7 Student Lunch Special",
+    distance: "3",
+    category: "Food",
+  },
+  {
+    dealID: "2",
+    store: "Fortino's",
+    discount: "10% Off",
+    distance: "2",
+    category: "Grocery",
+  },
+  {
+    dealID: "3",
+    store: "Cineplex",
+    discount: "Buy one get one free",
+    distance: "5",
+    category: "Entertainment",
+  },
+  {
+    dealID: "4",
+    store: "Subway",
+    discount: "$5 Footlongs",
+    distance: "1",
+    category: "Food",
+  },
+  {
+    dealID: "5",
+    store: "Food Basics",
+    discount: "10% Off",
+    distance: "2",
+    category: "Grocery",
+  },
+  {
+    dealID: "6",
+    store: "Osmow's Mediterranean",
+    discount: "$5 On the Rocks",
+    distance: "1.5",
+    category: "Food",
+  },
+];
+
 const defaultVisible = [false, false, false];
+
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
@@ -190,7 +235,18 @@ function App() {
                 className="site-layout-background"
                 style={{ padding: 24, margin: 0, minHeight: 280 }}
               >
-                <Route exact path="/" component={DashboardPage} />
+                <Route
+                  exact
+                  path="/"
+                  render={(props) => (
+                    <DashboardPage
+                      {...props}
+                      deals={deals}
+                      expenses={expenses}
+                      incomes={incomes}
+                    />
+                  )}
+                />
                 <Route
                   path="/expenses"
                   exact
@@ -228,6 +284,11 @@ function App() {
                       deals={deals}
                     />
                   )}
+                />
+                <Route
+                  path="/deals"
+                  exact
+                  render={(props) => <DealsPage {...props} deals={deals} />}
                 />
               </Content>
             </Layout>
