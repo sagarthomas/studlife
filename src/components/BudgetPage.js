@@ -12,6 +12,7 @@ class BudgetPage extends React.Component {
     this.updateBudget = this.updateBudget.bind(this);
     this.findPercent = this.findPercent.bind(this);
     this.getAmountSpent = this.getAmountSpent.bind(this);
+    this.findVisibility = this.findVisibility.bind(this);
     
   }
 
@@ -25,9 +26,24 @@ class BudgetPage extends React.Component {
     console.log(this.props.expenses);
 
     this.setState({ 
-      currentEdit: c,
-      visible: true 
+      currentEdit: c
     })
+
+    var newVisible = this.props.visible;
+
+    for (let i = 0; i < this.props.budgets.length; i++) {
+      if (this.props.budgets[i].category == c) {
+        newVisible[i] = true;
+      }
+
+      else {
+        newVisible[i] = false;
+      }
+    }
+
+    console.log(newVisible);
+
+    this.props.setVisible(newVisible);
   }
 
   updateBudget(v) {
@@ -106,9 +122,26 @@ class BudgetPage extends React.Component {
     });
   };
 
+  findVisibility(c) {
+
+    console.log("In find visibility");
+
+    for (let i = 0; i < this.props.budgets.length; i++) {
+      console.log(this.props.budgets[i].category, c);
+      if (this.props.budgets[i].category == c) {
+        console.log(this.props.visible[i], typeof this.props.visible[i]);
+        return this.props.visible[i];
+      }
+    }
+
+    console.log("Leaving find visibility");
+
+  }
+
   render() {
 
     const { Title } = Typography;
+    console.log(this.props.visible);
 
     return (
       <Space direction="vertical">
@@ -119,7 +152,7 @@ class BudgetPage extends React.Component {
         {this.props.budgets.map((e) => <Card><h3>{e.category}</h3> <Progress percent={this.findPercent(e)} /> <h4>${this.getAmountSpent(e.category)}/${e.target}</h4> <Divider />
 
         <Popover
-          visible={this.state.visible}
+          visible={this.findVisibility(e.category)}
           content={<Space><InputNumber formatter={(value) => `$ ${value}`} defaultValue={e.target} onChange={this.updateBudget} /> 
           <Button type="primary" onClick={this.hide} >OK</Button>
           </Space>}

@@ -15,7 +15,7 @@ import DashboardPage from "./components/DashboardPage";
 import ExpensePage from "./components/ExpensePage";
 import BudgetPage from "./components/BudgetPage";
 import DealsPage from "./components/DealsPage";
-import HousingPage from "./components/HousingPage";
+
 
 import "./App.css";
 import CreateModal from "./components/CreateModal";
@@ -68,6 +68,7 @@ const defaultBudgets = [
 ];
 const defaultCategories = ["Food", "Entertainment", "Grocery"];
 const defaultDeals = [{dealID: "1", store: "Lazeez Shawarma", discount: "$7 Student Lunch Special", distance: "3", category: "Food"}, {dealID: "2", store: "Fortino's", discount: "10% Off", distance: "2", category: "Grocery"}, {dealID: "3", store: "Cineplex", discount: "Buy one get one free", distance: "5", category: "Entertainment"}, {dealID: "4", store: "Subway", discount: "$5 Footlongs", distance: "1", category: "Food"}, {dealID: "5", store: "Food Basics", discount: "10% Off", distance: "2", category: "Grocery"}, {dealID: "6", store: "Osmow's Mediterranean", discount: "$5 On the Rocks", distance: "1.5", category: "Food"}];
+const defaultVisible = [false, false, false];
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
@@ -77,6 +78,7 @@ function App() {
   const [incomes, setIncomes] = useState(defaltIncomes);
   const [budgets, setBudgets] = useState(defaultBudgets);
   const [categories, setCategories] = useState(defaultCategories); // Used for budget and expense categories
+  const [visible, setVisible] = useState(defaultVisible);
   const [deals] = useState(defaultDeals);
 
   /*
@@ -94,8 +96,6 @@ function App() {
     defaultPage = ["3"];
   } else if (currentPath === "deals") {
     defaultPage = ["4"];
-  } else if (currentPath === "housing") {
-    defaultPage = ["5"];
   }
 
   const createMenu = (
@@ -146,6 +146,7 @@ function App() {
               : (item) => {
                   setCategories([...categories, item.category]);
                   setBudgets([...budgets, item]);
+                  setVisible([...visible, false]);
                 }
           }
         />
@@ -182,9 +183,6 @@ function App() {
                 <Menu.Item key="4" icon={<TagsOutlined />}>
                   <NavLink to="/deals">Deals</NavLink>
                 </Menu.Item>
-                <Menu.Item key="5" icon={<HomeOutlined />}>
-                  <NavLink to="/housing">Housing</NavLink>
-                </Menu.Item>
               </Menu>
             </Sider>
             <Layout style={{ padding: "24px" }}>
@@ -216,11 +214,12 @@ function App() {
                       budgets={budgets}
                       setBudgets={setBudgets}
                       expenses={expenses}
+                      visible={visible}
+                      setVisible={setVisible}
                     />
                   )}
                 />
                 <Route path="/deals" component={DealsPage} />
-                <Route path="/housing" component={HousingPage} />
               </Content>
             </Layout>
           </Layout>
