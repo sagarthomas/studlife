@@ -18,6 +18,7 @@ const EditModal = (props) => {
         frequency: props.item.frequency,
       });
     }
+
     if (props.type === "income") {
       incomeForm.setFieldsValue({
         name: props.item.name,
