@@ -13,6 +13,8 @@ class BudgetPage extends React.Component {
     this.findPercent = this.findPercent.bind(this);
     this.getAmountSpent = this.getAmountSpent.bind(this);
     this.findVisibility = this.findVisibility.bind(this);
+    this.hidePopup = this.hidePopup.bind(this);
+
     
   }
 
@@ -122,6 +124,21 @@ class BudgetPage extends React.Component {
     });
   };
 
+  hidePopup = (c) => {
+
+    var newVisible = this.props.visible;
+
+    for (let i = 0; i < this.props.budgets.length; i++) {
+      if (this.props.budgets[i].category == c) {
+        newVisible[i] = false;
+      }
+    }
+
+    this.props.setVisible(newVisible);
+
+    this.setState({visible: false})
+  };
+
   findVisibility(c) {
 
     console.log("In find visibility");
@@ -154,7 +171,7 @@ class BudgetPage extends React.Component {
         <Popover
           visible={this.findVisibility(e.category)}
           content={<Space><InputNumber formatter={(value) => `$ ${value}`} defaultValue={e.target} onChange={this.updateBudget} /> 
-          <Button type="primary" onClick={this.hide} >OK</Button>
+          <Button type="primary" onClick={() => this.hidePopup(e.category)} >OK</Button>
           </Space>}
             title="New spending target:"
             trigger="click"
