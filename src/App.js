@@ -15,7 +15,7 @@ import DashboardPage from "./components/DashboardPage";
 import ExpensePage from "./components/ExpensePage";
 import BudgetPage from "./components/BudgetPage";
 import DealsPage from "./components/DealsPage";
-import HousingPage from "./components/HousingPage";
+
 
 import "./App.css";
 import CreateModal from "./components/CreateModal";
@@ -112,6 +112,9 @@ const defaultDeals = [
   },
 ];
 
+const defaultVisible = [false, false, false];
+
+
 function App() {
   const [collapsed, setCollapsed] = useState(false);
   const [modalVisible, setModalVisibility] = useState(false);
@@ -120,6 +123,7 @@ function App() {
   const [incomes, setIncomes] = useState(defaltIncomes);
   const [budgets, setBudgets] = useState(defaultBudgets);
   const [categories, setCategories] = useState(defaultCategories); // Used for budget and expense categories
+  const [visible, setVisible] = useState(defaultVisible);
   const [deals] = useState(defaultDeals);
 
   /*
@@ -137,8 +141,6 @@ function App() {
     defaultPage = ["3"];
   } else if (currentPath === "deals") {
     defaultPage = ["4"];
-  } else if (currentPath === "housing") {
-    defaultPage = ["5"];
   }
 
   const createMenu = (
@@ -189,6 +191,7 @@ function App() {
               : (item) => {
                   setCategories([...categories, item.category]);
                   setBudgets([...budgets, item]);
+                  setVisible([...visible, false]);
                 }
           }
         />
@@ -224,9 +227,6 @@ function App() {
                 </Menu.Item>
                 <Menu.Item key="4" icon={<TagsOutlined />}>
                   <NavLink to="/deals">Deals</NavLink>
-                </Menu.Item>
-                <Menu.Item key="5" icon={<HomeOutlined />}>
-                  <NavLink to="/housing">Housing</NavLink>
                 </Menu.Item>
               </Menu>
             </Sider>
@@ -270,6 +270,18 @@ function App() {
                       budgets={budgets}
                       setBudgets={setBudgets}
                       expenses={expenses}
+                      visible={visible}
+                      setVisible={setVisible}
+                    />
+                  )}
+                />
+                <Route
+                  path="/deals"
+                  exact
+                  render={(props) => (
+                    <DealsPage
+                      {...props}
+                      deals={deals}
                     />
                   )}
                 />
@@ -278,7 +290,6 @@ function App() {
                   exact
                   render={(props) => <DealsPage {...props} deals={deals} />}
                 />
-                <Route path="/housing" component={HousingPage} />
               </Content>
             </Layout>
           </Layout>
